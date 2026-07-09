@@ -1,4 +1,5 @@
 from pathlib import Path
+
 import pandas as pd
 
 # =====================================
@@ -7,10 +8,7 @@ import pandas as pd
 
 LABELS_DIR = "/home/hiteshreddy/yolov5/runs/detect/exp/labels"
 
-CLASS_NAMES = {
-    0: "Bottle",
-    1: "Cup"
-}
+CLASS_NAMES = {0: "Bottle", 1: "Cup"}
 
 # =====================================
 # CHECK DIRECTORY
@@ -29,13 +27,10 @@ if not labels_path.exists():
 results = []
 
 for txt_file in labels_path.glob("*.txt"):
-
     image_name = txt_file.stem
 
-    with open(txt_file, "r") as f:
-
+    with open(txt_file) as f:
         for line in f:
-
             values = line.strip().split()
 
             if len(values) < 6:
@@ -50,16 +45,18 @@ for txt_file in labels_path.glob("*.txt"):
 
             confidence = float(values[5])
 
-            results.append({
-                "Image": image_name,
-                "Class_ID": class_id,
-                "Object": CLASS_NAMES.get(class_id, f"Class_{class_id}"),
-                "Confidence": confidence,
-                "X_center": x_center,
-                "Y_center": y_center,
-                "Width": width,
-                "Height": height
-            })
+            results.append(
+                {
+                    "Image": image_name,
+                    "Class_ID": class_id,
+                    "Object": CLASS_NAMES.get(class_id, f"Class_{class_id}"),
+                    "Confidence": confidence,
+                    "X_center": x_center,
+                    "Y_center": y_center,
+                    "Width": width,
+                    "Height": height,
+                }
+            )
 
 # =====================================
 # CREATE DATAFRAME
@@ -92,7 +89,6 @@ print("=" * 60)
 print(f"Total Detections : {len(df)}")
 
 for obj in ["Bottle", "Cup"]:
-
     obj_df = df[df["Object"] == obj]
 
     if len(obj_df) == 0:
@@ -113,10 +109,7 @@ print("\n" + "=" * 60)
 print("TOP 10 HIGHEST CONFIDENCE DETECTIONS")
 print("=" * 60)
 
-top10 = df.sort_values(
-    by="Confidence",
-    ascending=False
-).head(10)
+top10 = df.sort_values(by="Confidence", ascending=False).head(10)
 
 print(top10[["Image", "Object", "Confidence"]])
 
@@ -143,10 +136,7 @@ report = df[["Image", "Object", "Confidence"]]
 print(report.to_string(index=False))
 
 
-
-
-
-'''
+"""
 
 ============================================================
 ALL DETECTIONS
@@ -282,15 +272,4 @@ realistic-mug-mock-up-vector-template-easy-to-change-colors_webp.rf.a935cea3ccd3
 
 
 
-'''
-
-
-
-
-
-
-
-
-
-
-
+"""
