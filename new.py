@@ -1,12 +1,12 @@
-import torch
 import cv2
+import torch
 
 # Load YOLOv5 model
 model = torch.hub.load(
-    '/home/hiteshreddy/yolov5',
-    'custom',
-    path='/home/hiteshreddy/yolov5/runs/train/exp21/weights/best.pt',
-    source='local'
+    "/home/hiteshreddy/yolov5",
+    "custom",
+    path="/home/hiteshreddy/yolov5/runs/train/exp21/weights/best.pt",
+    source="local",
 )
 
 cap = cv2.VideoCapture(0)
@@ -23,7 +23,7 @@ while True:
 
     cv2.imshow("Bottle Cap Detection", frame)
 
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+    if cv2.waitKey(1) & 0xFF == ord("q"):
         break
 
 cap.release()
